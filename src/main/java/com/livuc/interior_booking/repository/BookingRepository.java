@@ -1,5 +1,7 @@
 package com.livuc.interior_booking.repository;
 
-public class BookingRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.livuc.interior_booking.entity.Booking;
 
+public interface BookingRepository extends JpaRepository<Booking, Long> {
 }

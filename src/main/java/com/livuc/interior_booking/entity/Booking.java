@@ -10,21 +10,29 @@ import lombok.Setter;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 
+
+
+
+
 @Entity
 @Getter
-@Setter
+@Setter 
 
 public class Booking {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // private String customerName;
+   
+
+    
 
     private String serviceName;
-    private LocalDate bookingDate;
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
+    private LocalDate  bookingDate;
+     @ManyToOne 
+     @JoinColumn (name = "customer_id")
     private Customer customer;
 }
