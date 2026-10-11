@@ -4,6 +4,7 @@ package com.livuc.interior_booking.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import jakarta.validation.Valid;
 
 import com.livuc.interior_booking.entity.Booking;
 import com.livuc.interior_booking.service.BookingService;
@@ -41,7 +43,7 @@ public class BookingController {
 
     // Create a new booking
     @PostMapping("/bookings")
-    public Booking createBooking(@RequestBody Booking booking) {
+    public Booking createBooking(@Valid @RequestBody Booking booking) {
         return bookingService.saveBooking(booking);
     }
 

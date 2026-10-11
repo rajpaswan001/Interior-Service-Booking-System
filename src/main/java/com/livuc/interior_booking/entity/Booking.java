@@ -9,7 +9,8 @@ import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 
 
@@ -29,9 +30,13 @@ public class Booking {
    
 
     
-
+    @NotBlank(message = "Service name is required")
     private String serviceName;
+
+
+    @NotNull(message = "Booking date is required")
     private LocalDate  bookingDate;
+    
      @ManyToOne 
      @JoinColumn (name = "customer_id")
     private Customer customer;
