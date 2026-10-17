@@ -1,15 +1,84 @@
 
+import { useState } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import About from './About';
 
+const API_URL = 'http://localhost:8080/bookings';
+
 function App() {
-  const whatsappLink = 'https://wa.me/91YOURNUMBER';
+  const whatsappLink = 'https://wa.me/YOUR_PHONE_NUMBER';
+
+  const [serviceName, setServiceName] = useState('Painting');
+  const [bookingDate, setBookingDate] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+
+  // Service button click hone par booking section tak scroll karo
+  function handleEnquireClick(service) {
+    setServiceName(service);
+    setMessage('');
+    setError('');
+
+    const contactSection = document.getElementById('contact');
+
+    if (contactSection) {
+      contactSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    } else {
+      alert('Booking section nahi mila. App.jsx mein id="contact" check karo.');
+    }
+  }
+
+  // Booking form backend ko submit karta hai
+  async function handleBookingSubmit(event) {
+    event.preventDefault();
+
+    setLoading(true);
+    setMessage('');
+    setError('');
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          serviceName,
+          bookingDate,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Booking submit nahi hui. Dobara try karo.');
+      }
+
+      const booking = await response.json();
+
+      setMessage(
+        `Booking successful! Your booking ID is ${booking.id}.`
+      );
+
+      setServiceName('Painting');
+      setBookingDate('');
+    } catch (err) {
+      setError(
+        err.message ||
+          'Server se connect nahi ho paaya. Please dobara try karo.'
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <BrowserRouter>
       <div className="app">
-        {/* Navbar */}
+        {/* Navigation */}
         <header className="navbar">
           <Link to="/" className="brand">
             Livuc<span>Interior</span>
@@ -34,116 +103,200 @@ function App() {
 
         <main>
           <Routes>
-            {/* Home Page */}
+            {/* Home page */}
             <Route
               path="/"
               element={
                 <>
+                  {/* Hero section */}
                   <section id="home" className="hero-section">
-                    <div className="hero-content">
-                      <p className="eyebrow">
-                        WELCOME TO LIVUC INTERIOR
-                      </p>
+                    <p className="eyebrow">LIVUC INTERIOR</p>
 
-                      <h1>
-                        Make Your Home
-                        <br />
-                        <span>Beautiful &amp; Modern</span>
-                      </h1>
+                    <h1>Beautiful Spaces. Quality Finishes.</h1>
 
-                      <p className="hero-description">
-                        Professional painting, interior design and home
-                        improvement services—all in one place.
-                      </p>
-
-                      <a href="#services" className="primary-button">
-                        Explore Services →
-                      </a>
-                    </div>
-
-                    <div className="hero-card">
-                      <div className="room-icon">⌂</div>
-                      <p>YOUR DREAM HOME</p>
-                      <span className="hero-tagline">
-                        LIVE WITH UNIQUE COMFORT.
-                      </span>
-                      <h2>Starts Here.</h2>
-                      <span>Thoughtful design. Beautiful finishes.</span>
-                    </div>
-                  </section>
-
-                  <section id="about" className="about-section">
-                    <div className="about-mark">LI</div>
-
-                    <div className="about-content">
-                      <p className="eyebrow">
-                        ABOUT LIVUC INTERIOR
-                      </p>
-
-                      <h2>We bring new life to your space.</h2>
-
-                      <p>
-                        From fresh wall colours to elegant interiors
-                        and polished wooden furniture, we help
-                        transform your space with care and attention
-                        to detail.
-                      </p>
-
-                      <Link to="/about" className="text-link">
-                        Know More About Us →
-                      </Link>
-                    </div>
-                  </section>
-
-                  <section id="services" className="services-section">
-                    <p className="eyebrow">WHAT WE DO</p>
-                    <h2>Our Services</h2>
-
-                    <p className="section-description">
-                      Professional services to make your space look its best.
+                    <p>
+                      Professional painting, interior design and wood
+                      polishing services for your space.
                     </p>
 
-                    <div className="service-grid">
+                    <a href="#services" className="light-button">
+                      Explore Our Services →
+                    </a>
+                  </section>
+
+                  {/* About section */}
+                  <section id="about" className="about-section">
+                    <p className="eyebrow">ABOUT US</p>
+
+                    <h2>Transforming Spaces with Care</h2>
+
+                    <p>
+                      We help make homes and workplaces look beautiful
+                      with professional interior finishing services.
+                    </p>
+
+                    <Link to="/about" className="enquire-link">
+                      Learn More →
+                    </Link>
+                  </section>
+
+                  {/* Services section */}
+                  <section
+                    id="services"
+                    className="services-section"
+                  >
+                    <p className="eyebrow">WHAT WE DO</p>
+
+                    <h2>Our Services</h2>
+
+                    <p>
+                      Professional services to make your space look
+                      its best.
+                    </p>
+
+                    <div className="services-grid">
+                      {/* Painting */}
                       <article className="service-card">
                         <div className="service-icon">🎨</div>
+
                         <h3>Painting</h3>
+
                         <p>
                           Give your walls a fresh and beautiful look
                           with professional painting services.
                         </p>
-                        <a href="#contact">Enquire Now →</a>
+
+                        <button
+                          type="button"
+                          className="enquire-link"
+                          onClick={() =>
+                            handleEnquireClick('Painting')
+                          }
+                        >
+                          Enquire Now →
+                        </button>
                       </article>
 
+                      {/* Interior Design */}
                       <article className="service-card">
                         <div className="service-icon">🛋️</div>
+
                         <h3>Interior Design</h3>
+
                         <p>
                           Create a comfortable and stylish living or
                           working space that suits your needs.
                         </p>
-                        <a href="#contact">Enquire Now →</a>
+
+                        <button
+                          type="button"
+                          className="enquire-link"
+                          onClick={() =>
+                            handleEnquireClick('Interior Design')
+                          }
+                        >
+                          Enquire Now →
+                        </button>
                       </article>
 
+                      {/* Wood Polishing */}
                       <article className="service-card">
                         <div className="service-icon">🪵</div>
+
                         <h3>Wood Polishing</h3>
+
                         <p>
                           Bring back the shine of wooden furniture,
                           doors and other wooden surfaces.
                         </p>
-                        <a href="#contact">Enquire Now →</a>
+
+                        <button
+                          type="button"
+                          className="enquire-link"
+                          onClick={() =>
+                            handleEnquireClick('Wood Polishing')
+                          }
+                        >
+                          Enquire Now →
+                        </button>
                       </article>
                     </div>
                   </section>
 
-                  <section id="contact" className="booking-section">
-                    <p className="eyebrow">GET STARTED</p>
-                    <h2>Ready to improve your space?</h2>
+                  {/* Booking section */}
+                  <section
+                    id="contact"
+                    className="booking-section"
+                  >
+                    <p className="eyebrow">BOOK A SERVICE</p>
+
+                    <h2>Ready to Improve Your Space?</h2>
 
                     <p>
-                      Tell us about your project and contact us to
-                      discuss your requirements and quotation.
+                      Select a service and your preferred date to send
+                      a booking request.
                     </p>
+
+                    <form
+                      onSubmit={handleBookingSubmit}
+                      className="booking-form"
+                    >
+                      <label htmlFor="serviceName">
+                        Select Service
+                      </label>
+
+                      <select
+                        id="serviceName"
+                        value={serviceName}
+                        onChange={(event) =>
+                          setServiceName(event.target.value)
+                        }
+                        required
+                      >
+                        <option value="Painting">Painting</option>
+                        <option value="Interior Design">
+                          Interior Design
+                        </option>
+                        <option value="Wood Polishing">
+                          Wood Polishing
+                        </option>
+                      </select>
+
+                      <label htmlFor="bookingDate">
+                        Preferred Booking Date
+                      </label>
+
+                      <input
+                        id="bookingDate"
+                        type="date"
+                        value={bookingDate}
+                        min={new Date().toLocaleDateString('en-CA')}
+                        onChange={(event) =>
+                          setBookingDate(event.target.value)
+                        }
+                        required
+                      />
+
+                      <button
+                        type="submit"
+                        className="light-button"
+                        disabled={loading}
+                      >
+                        {loading
+                          ? 'Submitting...'
+                          : 'Book Now →'}
+                      </button>
+
+                      {message && (
+                        <p role="status">{message}</p>
+                      )}
+
+                      {error && (
+                        <p role="alert">{error}</p>
+                      )}
+                    </form>
+
+                    <p>Prefer to talk to us first?</p>
 
                     <a
                       href={whatsappLink}
@@ -158,7 +311,7 @@ function App() {
               }
             />
 
-            {/* About Page */}
+            {/* About page */}
             <Route path="/about" element={<About />} />
           </Routes>
         </main>
@@ -172,8 +325,8 @@ function App() {
           <p>Beautiful spaces. Quality finishes.</p>
 
           <p className="copyright">
-            © {new Date().getFullYear()} Livuc Interior.
-            All rights reserved.
+            © {new Date().getFullYear()} Livuc Interior. All rights
+            reserved.
           </p>
         </footer>
       </div>
@@ -182,3 +335,4 @@ function App() {
 }
 
 export default App;
+```
