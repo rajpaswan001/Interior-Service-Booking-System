@@ -11,6 +11,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Getter
@@ -23,7 +26,11 @@ public class Customer {
 
     private String name;
 
+    @Column(unique = true, nullable = false)
+    @NotBlank(message = "Email is required")
+    @Email(message = "Please enter a valid email")
     private String email;
+    private String password;
 
     private String phone;
 
