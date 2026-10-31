@@ -1,47 +1,111 @@
 
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+
 
 function About() {
   return (
-    <section className="about-section">
-      <div className="about-mark">LI</div>
-
-      <div className="about-content">
-        <p className="eyebrow">GET TO KNOW US</p>
-
-         <h2 style={{ color: 'saddlebrown' }}>About Livuc Interior</h2>
-          <br />
+    <main className="about-page">
+      <section className="about-hero">
+        <p className="eyebrow">ABOUT LIVUC INTERIOR</p>
+        <h1>Spaces That Feel Like You</h1>
         <p>
-          I’m Raj from Livuc Interior, providing professional
-          painting and wooden polishing services.
+          We help transform homes and workspaces through thoughtful
+          interior design, professional painting and quality wood
+          polishing.
+        </p>
+      </section>
+
+      <section className="about-content">
+        <div className="about-image">
+          <img
+            src="/images/interior-detail.jpg"
+            alt="Carefully finished interior space"
+          />
+        </div>
+
+        <div className="about-copy">
+          <p className="eyebrow">WHO WE ARE</p>
+          <h2>Live With Unique Comfort</h2>
+
+          <p>
+            At Livuc Interior, we believe that every space deserves
+            attention, care and a finish that reflects its purpose.
+          </p>
+
+          <p>
+            From refreshing walls with paint to enhancing furniture
+            with wood polishing, our focus is on quality workmanship
+            and service suited to each project.
+          </p>
+
+          <p>
+            We work to understand your requirements and help you
+            choose practical solutions for your home or workspace.
+          </p>
+
+          <Link to="/services" className="primary-button">
+            Explore Our Services
+          </Link>
+        </div>
+      </section>
+
+      <section className="about-values">
+        <p className="eyebrow">WHAT MATTERS TO US</p>
+        <h2>Our Approach</h2>
+
+        <div className="service-grid">
+          <article className="service-card">
+            <div className="service-card-content">
+              <h3>Quality Workmanship</h3>
+              <p>
+                We focus on careful execution and a clean,
+                professional finish.
+              </p>
+            </div>
+          </article>
+
+          <article className="service-card">
+            <div className="service-card-content">
+              <h3>Attention to Detail</h3>
+              <p>
+                We consider the small details that contribute to
+                the overall look of a space.
+              </p>
+            </div>
+          </article>
+
+          <article className="service-card">
+            <div className="service-card-content">
+              <h3>Client Requirements</h3>
+              <p>
+                We aim to understand your needs before planning the
+                work for your project.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section className="home-cta">
+        <p className="eyebrow">START YOUR PROJECT</p>
+        <h2>Let's Talk About Your Space</h2>
+        <p>
+          Tell us about your requirements and preferred service.
         </p>
 
-        <p>
-          Our focus is on quality finishes, attention to detail
-          and creating beautiful, comfortable spaces for our clients.
-        </p>
-        
+        <Link to="/enquiry" className="primary-button">
+          Send an Enquiry
+         </Link>
+         <br />
+         <br />
+<     Link to="/" className="back-home">
+       ← Back to Home
+      </Link>
 
-        <h3>Our Services</h3>
-        <p>Painting</p>
-        <p>Interior Design</p>
-        <p>Wood Polishing</p>
-        <h3>Get in Touch</h3>
-<p>Instagram: @livuc_interior</p>
-<p>Email: info@livucinterior.com</p>
 
-        <Link to="/#services" className="text-link">
-          Explore Our Services →
-        </Link>
 
-        <br />
-        <br />
-
-        <Link to="/" className="text-link">
-          ← Back to Home
-        </Link>
-      </div>
-    </section>
+      </section>
+    </main>
   );
 }
 
