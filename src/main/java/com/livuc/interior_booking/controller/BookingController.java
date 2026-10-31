@@ -1,58 +1,97 @@
+
 package com.livuc.interior_booking.controller;
 
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.validation.Valid;
 
 import com.livuc.interior_booking.entity.Booking;
+import com.livuc.interior_booking.entity.Customer;
+import com.livuc.interior_booking.repository.CustomerRepository;
 import com.livuc.interior_booking.service.BookingService;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 public class BookingController {
 
     private final BookingService bookingService;
+    private final CustomerRepository customerRepository;
 
-    public BookingController(BookingService bookingService) {
+    public BookingController(
+            BookingService bookingService,
+            CustomerRepository customerRepository) {
         this.bookingService = bookingService;
+        this.customerRepository = customerRepository;
+    }
+
+    private Customer getAuthenticatedCustomer(
+            Authentication authentication) {
+
+        return customerRepository
+                .findByEmail(authentication.getName())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Customer not found"));
+    }
+
+    private Booking getOwnedBooking(Long id, Customer customer) {
+
+        Booking booking = bookingService.getBookingById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Booking not found"));
+
+        if (booking.getCustomer() == null
+                || !customer.getId().equals(
+                        booking.getCustomer().getId())) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Booking not found");
+        }
+
+        return booking;
     }
 
     @GetMapping("/bookings")
-    public List<Booking> getAllBookings() {
-        return bookingService.getAllBookings();
+    public List<Booking> getAllBookings(
+            Authentication authentication) {
+
+        Customer customer = getAuthenticatedCustomer(authentication);
+
+        return bookingService.getBookingsByCustomerId(customer.getId());
     }
 
     @GetMapping("/bookings/{id}")
-    public Booking getBookingById(@PathVariable Long id) {
-        return bookingService.getBookingById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Booking not found"));
+    public Booking getBookingById(
+            @PathVariable Long id,
+            Authentication authentication) {
+
+        Customer customer = getAuthenticatedCustomer(authentication);
+
+        return getOwnedBooking(id, customer);
     }
 
     @PostMapping("/bookings")
-    public Booking createBooking(@Valid @RequestBody Booking booking) {
+    public Booking createBooking(
+            @Valid @RequestBody Booking booking,
+            Authentication authentication) {
+
+        Customer customer = getAuthenticatedCustomer(authentication);
+
+        booking.setCustomer(customer);
+
         return bookingService.saveBooking(booking);
     }
 
     @PutMapping("/bookings/{id}")
     public Booking updateBooking(
             @PathVariable Long id,
-            @Valid @RequestBody Booking booking) {
+            @Valid @RequestBody Booking booking,
+            Authentication authentication) {
 
-        Booking existingBooking = bookingService.getBookingById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Booking not found"));
+        Customer customer = getAuthenticatedCustomer(authentication);
+        Booking existingBooking = getOwnedBooking(id, customer);
 
         existingBooking.setServiceName(booking.getServiceName());
         existingBooking.setBookingDate(booking.getBookingDate());
@@ -61,11 +100,12 @@ public class BookingController {
     }
 
     @DeleteMapping("/bookings/{id}")
-    public void deleteBooking(@PathVariable Long id) {
-        if (bookingService.getBookingById(id).isEmpty()) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Booking not found");
-        }
+    public void deleteBooking(
+            @PathVariable Long id,
+            Authentication authentication) {
+
+        Customer customer = getAuthenticatedCustomer(authentication);
+        getOwnedBooking(id, customer);
 
         bookingService.deleteBooking(id);
     }
