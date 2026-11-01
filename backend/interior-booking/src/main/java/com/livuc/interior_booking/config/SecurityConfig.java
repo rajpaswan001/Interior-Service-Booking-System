@@ -42,30 +42,46 @@ public class SecurityConfig {
 
         http
             .userDetailsService(customerDetailsService)
+
             .cors(cors -> cors.configurationSource(request -> {
                 CorsConfiguration config = new CorsConfiguration();
-                config.setAllowedOrigins(List.of("http://localhost:5173"));
+
+                config.setAllowedOrigins(
+                    List.of("http://localhost:5173")
+                );
+
                 config.setAllowedMethods(
                     List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 );
+
                 config.setAllowedHeaders(List.of("*"));
                 config.setAllowCredentials(true);
+
                 return config;
             }))
+
             .csrf(csrf -> csrf.disable())
+
             .sessionManagement(session ->
                 session.sessionCreationPolicy(
                     SessionCreationPolicy.IF_REQUIRED
                 )
             )
+
             .authorizeHttpRequests(auth -> auth
+
                 .requestMatchers(
                     "/customers/register",
                     "/customers/login"
                 ).permitAll()
+
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+
                 .anyRequest().authenticated()
             )
+
             .formLogin(form -> form.disable())
+
             .httpBasic(basic -> basic.disable());
 
         return http.build();

@@ -36,4 +36,21 @@ public class BookingService {
     public void deleteBooking(Long id) {
         bookingRepository.deleteById(id);
     }
+
+    // Update booking status
+    public Optional<Booking> updateBookingStatus(Long id, String status) {
+
+        Optional<Booking> optionalBooking = bookingRepository.findById(id);
+
+        if (optionalBooking.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Booking booking = optionalBooking.get();
+        booking.setStatus(status);
+
+        Booking updatedBooking = bookingRepository.save(booking);
+
+        return Optional.of(updatedBooking);
+    }
 }

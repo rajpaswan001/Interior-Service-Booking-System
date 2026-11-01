@@ -15,10 +15,12 @@ import Services from "./Services";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import CustomerDashboard from "./pages/CustomerDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 
 import Navbar from "./components/Navbar";
 import "./App.css";
 import { AuthProvider } from "./context/AuthContext";
+import "./App.css";
 
 const API_URL = "http://localhost:8080/bookings";
 
@@ -371,6 +373,7 @@ function Enquiry() {
   );
 }
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -382,13 +385,15 @@ function App() {
           <Route path="/enquiry" element={<Enquiry />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+
           <Route
             path="/dashboard"
-            element={
-              <>
-                <CustomerDashboard />
-              </>
-            }
+            element={<CustomerDashboard />}
+          />
+
+          <Route
+            path="/admin-dashboard"
+            element={<AdminDashboard />}
           />
         </Routes>
       </AuthProvider>

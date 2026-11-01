@@ -1281,3 +1281,296 @@ p {
     gap: 3px;
   }
 }
+
+
+
+/* =====================================
+   LIVUC INTERIOR - ADMIN DASHBOARD css
+===================================== */
+
+.admin-page {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: #f5f6fa;
+  color: #252b42;
+}
+
+.admin-container {
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+/* Header */
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.admin-eyebrow {
+  color: #b58b45;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin: 0 0 8px;
+}
+
+.admin-header h1 {
+  font-size: 30px;
+  color: #20263d;
+  margin: 0 0 8px;
+}
+
+.admin-header p {
+  color: #777e91;
+  margin: 0;
+}
+
+.admin-home-button {
+  display: inline-block;
+  background: #20263d;
+  color: #fff;
+  padding: 12px 22px;
+  border-radius: 7px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.admin-home-button:hover {
+  background: #b58b45;
+  color: #fff;
+}
+
+/* Welcome Section */
+
+.admin-welcome {
+  background: #20263d;
+  color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+}
+
+.admin-welcome h2 {
+  font-size: 24px;
+  margin: 0 0 10px;
+}
+
+.admin-welcome p {
+  color: #d7d9e2;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Statistics Cards */
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.admin-stat-card {
+  background: #fff;
+  padding: 23px;
+  border: 1px solid #e9eaf0;
+  border-radius: 10px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+  transition: 0.3s;
+}
+
+.admin-stat-card:hover {
+  transform: translateY(-3px);
+}
+
+.admin-stat-card p {
+  color: #777e91;
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+
+.admin-stat-card h3 {
+  color: #20263d;
+  font-size: 30px;
+  margin: 0;
+}
+
+/* Bookings Section */
+
+.admin-bookings-section {
+  background: #fff;
+  padding: 25px;
+  border: 1px solid #e9eaf0;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+.admin-bookings-section h2 {
+  color: #20263d;
+  font-size: 22px;
+  margin: 0 0 8px;
+}
+
+.admin-bookings-section > p {
+  color: #777e91;
+  margin: 0 0 22px;
+}
+
+/* Table */
+
+.admin-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+}
+
+.admin-table th {
+  background: #f5f6fa;
+  color: #555d72;
+  padding: 15px 12px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.admin-table td {
+  padding: 15px 12px;
+  border-bottom: 1px solid #eceef3;
+  color: #454c60;
+  font-size: 14px;
+}
+
+.admin-table tbody tr:hover {
+  background: #fafbfe;
+}
+
+/* Status Badges */
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 11px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.status-pending {
+  background: #fff3d6;
+  color: #9a6700;
+}
+
+.status-confirmed {
+  background: #dff5e8;
+  color: #187544;
+}
+
+.status-completed {
+  background: #e2eaff;
+  color: #3159a5;
+}
+
+.status-cancelled {
+  background: #ffe3e3;
+  color: #b42323;
+}
+
+/* Status Dropdown */
+
+.status-select {
+  padding: 9px 10px;
+  border: 1px solid #d9dce5;
+  border-radius: 6px;
+  background: #fff;
+  color: #333a50;
+  cursor: pointer;
+  outline: none;
+}
+
+.status-select:focus {
+  border-color: #b58b45;
+}
+
+.status-select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Error and Success Messages */
+
+.admin-alert {
+  padding: 13px 16px;
+  border-radius: 7px;
+  margin-bottom: 18px;
+  font-size: 14px;
+}
+
+.admin-error {
+  background: #ffe8e8;
+  color: #a52222;
+}
+
+.admin-success {
+  background: #e4f7eb;
+  color: #187544;
+}
+
+/* Loading and Empty State */
+
+.admin-loading,
+.admin-empty {
+  text-align: center;
+  padding: 30px;
+  color: #777e91;
+}
+
+/* Responsive Design */
+
+@media (max-width: 900px) {
+  .admin-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-page {
+    padding: 25px 12px;
+  }
+
+  .admin-header h1 {
+    font-size: 25px;
+  }
+
+  .admin-welcome {
+    padding: 22px;
+  }
+
+  .admin-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .admin-stat-card {
+    padding: 16px;
+  }
+
+  .admin-stat-card h3 {
+    font-size: 24px;
+  }
+
+  .admin-bookings-section {
+    padding: 16px;
+  }
+}

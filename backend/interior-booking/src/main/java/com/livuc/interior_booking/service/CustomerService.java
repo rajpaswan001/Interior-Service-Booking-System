@@ -33,11 +33,15 @@ public class CustomerService {
         }
 
         Customer customer = new Customer();
+
         customer.setName(request.getName());
         customer.setEmail(request.getEmail());
         customer.setPhone(request.getPhone());
 
-        // Password ko hash karke database mein save karna
+        // Every public registration gets CUSTOMER role
+        customer.setRole("CUSTOMER");
+
+        // Hash password before saving
         customer.setPassword(
                 passwordService.hashPassword(request.getPassword()));
 
@@ -53,7 +57,7 @@ public class CustomerService {
                         HttpStatus.UNAUTHORIZED,
                         "Invalid email or password"));
 
-        // Entered password ko stored hash se verify karna
+        // Verify entered password against stored hash
         boolean passwordMatches = passwordService.verifyPassword(
                 request.getPassword(),
                 customer.getPassword());

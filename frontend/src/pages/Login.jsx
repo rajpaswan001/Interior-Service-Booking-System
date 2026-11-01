@@ -14,7 +14,7 @@ function Login() {
 
   async function handleLogin(event) {
     event.preventDefault();
-  
+
     setMessage("");
     setLoading(true);
 
@@ -41,14 +41,19 @@ function Login() {
           data.detail || data.message || "Invalid email or password."
         );
       }
-       login(data);
+
+      login(data);
+
       setMessage("Login successful! Welcome, " + data.name + ".");
 
-      // Abhi sirf successful login response handle ho raha hai.
-      // Secure session/token authentication baad mein add karenge.
       setTimeout(() => {
-      navigate("/dashboard");
-   }, 1500);
+        if (data.role === "ADMIN") {
+          navigate("/admin-dashboard");
+        } else {
+          navigate("/dashboard");
+        }
+      }, 1000);
+
     } catch (error) {
       setMessage(
         error.message || "Server se connect nahi ho pa raha hai."
@@ -81,9 +86,7 @@ function Login() {
           <p className="eyebrow">WELCOME BACK</p>
           <h2>Sign In</h2>
 
-          <p>
-            Sign in to continue to Livuc Interior.
-          </p>
+          <p>Sign in to continue to Livuc Interior.</p>
 
           <label htmlFor="email">Email Address</label>
           <input

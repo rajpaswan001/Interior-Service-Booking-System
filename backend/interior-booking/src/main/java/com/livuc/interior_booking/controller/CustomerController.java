@@ -90,7 +90,8 @@ public class CustomerController {
                 "message", "Login successful",
                 "customerId", customer.getId(),
                 "name", customer.getName(),
-                "email", customer.getEmail()
+                "email", customer.getEmail(),
+                "role", customer.getRole()
         );
 
         return ResponseEntity.ok(response);

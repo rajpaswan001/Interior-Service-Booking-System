@@ -1,4 +1,3 @@
-
 package com.livuc.interior_booking.service;
 
 import com.livuc.interior_booking.entity.Customer;
@@ -29,7 +28,7 @@ public class CustomerDetailsService implements UserDetailsService {
 
         return User.withUsername(customer.getEmail())
                 .password(customer.getPassword())
-                .roles("CUSTOMER")
+                .roles(customer.getRole())
                 .build();
     }
 }
