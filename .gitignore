@@ -2,7 +2,7 @@
 **/node_modules/
 **/dist/
 **/.vscode/
-**/src/main/resources/application.properties
+#**/src/main/resources/application.properties
 .env
 .env.*
 !.env.example
