@@ -33,3 +33,4 @@ build/
 .vscode/
 # Local database configuration
 /src/main/resources/application.properties
+**/src/main/java/com/livuc/interior_booking/certs/
