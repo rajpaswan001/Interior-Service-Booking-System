@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/Navbar";
+import { API_URL } from "../config/api";
 
 function CustomerDashboard() {
   const { customer } = useAuth();
@@ -14,7 +15,7 @@ function CustomerDashboard() {
   useEffect(() => {
     async function fetchBookings() {
       try {
-        const response = await fetch("http://localhost:8080/bookings", {
+        const response = await fetch(`${API_URL}/bookings`, {
           credentials: "include",
         });
 

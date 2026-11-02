@@ -21,8 +21,9 @@ import Navbar from "./components/Navbar";
 import "./App.css";
 import { AuthProvider } from "./context/AuthContext";
 import "./App.css";
+import { API_URL } from "./config/api";
 
-const API_URL = "http://localhost:8080/bookings";
+const BOOKINGS_API = `${API_URL}/bookings`;
 
 function Footer() {
   return (
@@ -244,7 +245,7 @@ function Enquiry() {
     setLoading(true);
 
     try {
-      const response = await fetch(API_URL, {
+   const response = await fetch(BOOKINGS_API, {
         method: "POST",
         credentials: "include",
         headers: {

@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import { API_URL } from "../config/api";
 
 function AdminDashboard() {
   const [adminData, setAdminData] = useState(null);
@@ -16,7 +17,7 @@ function AdminDashboard() {
       setError("");
 
       const dashboardResponse = await fetch(
-        "http://localhost:8080/admin/dashboard",
+        `${API_URL}/admin/dashboard`,
         {
           method: "GET",
           credentials: "include",
@@ -31,7 +32,7 @@ function AdminDashboard() {
       setAdminData(dashboardData);
 
       const bookingsResponse = await fetch(
-        "http://localhost:8080/admin/bookings",
+        `${API_URL}/admin/bookings`,
         {
           method: "GET",
           credentials: "include",
@@ -62,7 +63,7 @@ function AdminDashboard() {
       setUpdatingId(bookingId);
 
       const response = await fetch(
-        `http://localhost:8080/admin/bookings/${bookingId}/status`,
+        `${API_URL}/admin/bookings/${bookingId}/status`,
         {
           method: "PUT",
           credentials: "include",
@@ -111,7 +112,6 @@ function AdminDashboard() {
 
       <main className="admin-page">
         <div className="admin-container">
-
           <header className="admin-header">
             <div>
               <p className="admin-eyebrow">LIVUC INTERIOR</p>

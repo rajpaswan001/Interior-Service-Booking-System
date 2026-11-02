@@ -1,5 +1,6 @@
 
 import { createContext, useContext, useState } from "react";
+import { API_URL } from "../config/api";
 
 // Login state share karne ke liye context
 const AuthContext = createContext(null);
@@ -17,7 +18,7 @@ export function AuthProvider({ children }) {
   async function logout() {
     try {
       const response = await fetch(
-        "http://localhost:8080/customers/logout",
+        `${API_URL}/customers/logout`,
         {
           method: "POST",
           credentials: "include",
