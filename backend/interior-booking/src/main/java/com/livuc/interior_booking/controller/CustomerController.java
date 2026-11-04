@@ -24,10 +24,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@CrossOrigin(
-    origins = "http://localhost:5173",
-    allowCredentials = "true"
-)
 @RestController
 @RequestMapping("/customers")
 public class CustomerController {
@@ -39,6 +35,7 @@ public class CustomerController {
     public CustomerController(
             CustomerService customerService,
             AuthenticationManager authenticationManager) {
+
         this.customerService = customerService;
         this.authenticationManager = authenticationManager;
         this.securityContextRepository =
@@ -104,6 +101,7 @@ public class CustomerController {
         SecurityContextHolder.clearContext();
 
         HttpSession session = request.getSession(false);
+
         if (session != null) {
             session.invalidate();
         }
