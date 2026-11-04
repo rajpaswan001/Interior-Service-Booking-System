@@ -11,6 +11,7 @@ function CustomerDashboard() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [expandedBooking, setExpandedBooking] = useState(null);
 
   useEffect(() => {
     async function fetchBookings() {
@@ -39,6 +40,26 @@ function CustomerDashboard() {
 
   if (!customer) {
     return <Navigate to="/login" replace />;
+  }
+
+  function formatDate(date) {
+    if (!date) return "Not available";
+
+    return new Date(`${date}T00:00:00`).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  }
+
+  function getStatus(booking) {
+    return (booking.status || "PENDING").toUpperCase();
+  }
+
+  function toggleDetails(bookingId) {
+    setExpandedBooking((current) =>
+      current === bookingId ? null : bookingId
+    );
   }
 
   return (
@@ -75,7 +96,11 @@ function CustomerDashboard() {
             </div>
 
             <span className="booking-count">
-              {loading ? "Loading..." : `${bookings.length} bookings`}
+              {loading
+                ? "Loading..."
+                : `${bookings.length} ${
+                    bookings.length === 1 ? "Booking" : "Bookings"
+                  }`}
             </span>
           </div>
 
@@ -99,28 +124,71 @@ function CustomerDashboard() {
 
           {!loading && !error && bookings.length > 0 && (
             <div className="booking-list">
-              {bookings.map((booking) => (
-                <article className="booking-card" key={booking.id}>
-                  <div className="booking-card-icon" aria-hidden="true">
-                    LI
-                  </div>
+              {bookings.map((booking) => {
+                const status = getStatus(booking);
+                const isExpanded = expandedBooking === booking.id;
 
-                  <div className="booking-card-details">
-                    <p className="booking-reference">
-                      BOOKING #{booking.id}
-                    </p>
-                    <h3>{booking.serviceName}</h3>
-                    <p className="booking-date">
-                      <span>Booking date</span>
-                      {booking.bookingDate}
-                    </p>
-                  </div>
+                return (
+                  <article className="booking-card" key={booking.id}>
+                    <div className="booking-card-icon" aria-hidden="true">
+                      LI
+                    </div>
 
-                  <div className="booking-card-action">
-                    <span className="booking-label">My Service</span>
-                  </div>
-                </article>
-              ))}
+                    <div className="booking-card-details">
+                      <p className="booking-reference">
+                        BOOKING #{booking.id}
+                      </p>
+
+                      <h3>{booking.serviceName}</h3>
+
+                      <p className="booking-date">
+                        <span>Booking date</span>
+                        {formatDate(booking.bookingDate)}
+                      </p>
+                    </div>
+
+                    <div className="booking-card-action">
+                      <span
+                        className={`booking-status status-${status.toLowerCase()}`}
+                      >
+                        {status}
+                      </span>
+
+                      <button
+                        type="button"
+                        className="booking-details-button"
+                        onClick={() => toggleDetails(booking.id)}
+                        aria-expanded={isExpanded}
+                      >
+                        {isExpanded ? "Hide Details" : "View Details"}
+                      </button>
+                    </div>
+
+                    {isExpanded && (
+                      <div className="booking-expanded-details">
+                        <h4>Booking Details</h4>
+
+                        <p>
+                          <strong>Booking ID:</strong> #{booking.id}
+                        </p>
+
+                        <p>
+                          <strong>Service:</strong> {booking.serviceName}
+                        </p>
+
+                        <p>
+                          <strong>Booking Date:</strong>{" "}
+                          {formatDate(booking.bookingDate)}
+                        </p>
+
+                        <p>
+                          <strong>Status:</strong> {status}
+                        </p>
+                      </div>
+                    )}
+                  </article>
+                );
+              })}
             </div>
           )}
         </section>
