@@ -1574,3 +1574,82 @@ p {
     padding: 16px;
   }
 }
+
+
+
+
+
+/* ===== CUSTOMER BOOKING STATUS =====dashboard */
+
+.booking-card-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.booking-status {
+  display: inline-block;
+  padding: 7px 13px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.booking-details-button {
+  padding: 9px 15px;
+  border: 1px solid var(--green);
+  background: transparent;
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.booking-details-button:hover {
+  background: var(--green);
+  color: white;
+}
+
+.booking-expanded-details {
+  flex-basis: 100%;
+  width: 100%;
+  padding: 20px;
+  margin-top: 5px;
+  background: #fbfaf7;
+  border: 1px solid #e9e5dc;
+}
+
+.booking-expanded-details h4 {
+  margin-bottom: 15px;
+  color: var(--green);
+}
+
+.booking-expanded-details p {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+
+/* Mobile dashboard */
+@media (max-width: 600px) {
+  .booking-card {
+    flex-wrap: wrap;
+  }
+
+  .booking-card-action {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 58px;
+  }
+
+  .booking-expanded-details {
+    padding: 15px;
+  }
+}
